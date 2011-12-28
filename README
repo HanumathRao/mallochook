@@ -1,0 +1,14 @@
+compile with:
+
+	g++ -O3 -mtune=native -pthread -fPIC -ldl -shared -o "libmallochook.so" mallochook.cpp
+
+or import the folder in Eclipse and click on the compile button.
+Launch your program with this command:
+
+	LD_PRELOAD=/path/to/library /path/to/your/program 
+
+then send a SIGUSR1 to it when you want a dump to be generated ('killall -s SIGUSR1 yourprogram').
+Open up the Mathematica nootebok, modify the first line to match the path of the generated file, then evaluate it.
+
+You should not strip your program, otherwise you won't be able to convert addresses to lines.
+The notebook has been created and tested with Mathematica 8, I don't guarantee anything with other versions.
