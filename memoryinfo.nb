@@ -10,22 +10,23 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     20229,        436]
-NotebookOptionsPosition[     19838,        419]
-NotebookOutlinePosition[     20174,        434]
-CellTagsIndexPosition[     20131,        431]
+NotebookDataLength[     23021,        496]
+NotebookOptionsPosition[     22627,        479]
+NotebookOutlinePosition[     22963,        494]
+CellTagsIndexPosition[     22920,        491]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 Cell[BoxData[
  RowBox[{
-  RowBox[{
-  "Get", "[", "\"\<sorgenti/sauerbraten/memoryinfo_22860000_0\>\"", "]"}], 
+  RowBox[{"Get", "[", "\"\<sorgenti/hopmodv4/memoryinfo_9661_0\>\"", "]"}], 
   ";"}]], "Input",
- CellChangeTimes->{{3.53407481513846*^9, 3.534074832007988*^9}}],
+ CellChangeTimes->{{3.53407481513846*^9, 3.534074832007988*^9}, {
+   3.534264388616157*^9, 3.5342643901309032`*^9}, {3.534267390940728*^9, 
+   3.534267402107065*^9}, 3.5342680359329643`*^9}],
 
-Cell[BoxData[
+Cell[BoxData[{
  RowBox[{
   RowBox[{"tohexstring", "[", "x_Integer", "]"}], ":=", 
   RowBox[{"\"\<0x\>\"", "<>", 
@@ -37,14 +38,37 @@ Cell[BoxData[
         RowBox[{"x", ",", "16"}], "]"}], "]"}], ",", 
       RowBox[{
        RowBox[{"RegularExpression", "[", "\"\<\\n *16\>\"", "]"}], "\[Rule]", 
-       "\"\<\>\""}]}], "]"}], "]"}]}]}]], "Input",
- CellChangeTimes->{{3.534019420329543*^9, 3.534019462484221*^9}}],
+       "\"\<\>\""}]}], "]"}], "]"}]}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"SetAttributes", "[", 
+   RowBox[{"tohexstring", ",", "Listable"}], "]"}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"top", "=", 
+   RowBox[{"{", "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"topinfo", "[", 
+   RowBox[{"score_Integer", ",", "depth_Integer"}], "]"}], ":=", 
+  RowBox[{"ToString", "[", 
+   RowBox[{"tohexstring", "[", 
+    RowBox[{"top", "[", 
+     RowBox[{"[", 
+      RowBox[{"score", ",", "depth", ",", "1", ",", "3"}], "]"}], "]"}], 
+    "]"}], "]"}]}]}], "Input",
+ CellChangeTimes->{{3.534019420329543*^9, 3.534019462484221*^9}, {
+  3.5342680619732533`*^9, 3.534268115738275*^9}, {3.5342681630072603`*^9, 
+  3.534268170512013*^9}, {3.534268262318969*^9, 3.534268288387154*^9}, {
+  3.534268319815942*^9, 3.534268361132821*^9}}],
 
 Cell[BoxData[{
  RowBox[{
-  RowBox[{"maxdepth", "=", "6"}], ";"}], "\[IndentingNewLine]", 
+  RowBox[{"maxdepth", "=", "30"}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
-  RowBox[{"maxscore", "=", "5"}], ";"}]}], "Input",
+  RowBox[{"maxscore", "=", "5"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"timestart", "=", "0"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"timeend", "=", "Infinity"}], ";"}]}], "Input",
  CellChangeTimes->{{3.533997857214374*^9, 3.533997861172806*^9}, {
    3.5339979688275537`*^9, 3.53399796923873*^9}, {3.533998620094105*^9, 
    3.5339986388779573`*^9}, {3.533998762146967*^9, 3.533998766652878*^9}, {
@@ -53,18 +77,28 @@ Cell[BoxData[{
    3.534015358677218*^9, 3.534015358762241*^9}, 3.534015821665347*^9, 
    3.534015994622308*^9, 3.534016025169427*^9, {3.534020225343647*^9, 
    3.534020263793621*^9}, {3.534060136296529*^9, 3.534060136382207*^9}, {
-   3.534060419550205*^9, 3.5340604198831863`*^9}, 3.534060538691372*^9}],
+   3.534060419550205*^9, 3.5340604198831863`*^9}, 3.534060538691372*^9, {
+   3.534264394991984*^9, 3.53426439812114*^9}, {3.534268569099457*^9, 
+   3.534268593217126*^9}, {3.534268648628481*^9, 3.534268660403153*^9}, {
+   3.5342692726681757`*^9, 3.5342692728063*^9}}],
 
 Cell[BoxData[{
  RowBox[{
-  RowBox[{"memoryinfo", "=", "memoryinforaw"}], 
-  ";"}], "\[IndentingNewLine]", 
+  RowBox[{"memoryinfochart", "=", 
+   RowBox[{"Select", "[", 
+    RowBox[{"memoryinforaw", ",", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"timestart", "\[LessEqual]", 
+        RowBox[{"#", "[", 
+         RowBox[{"[", "4", "]"}], "]"}], "<", "timeend"}], ")"}], "&"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
-   RowBox[{"memoryinfo", "[", 
+   RowBox[{"memoryinfochart", "[", 
     RowBox[{"[", 
      RowBox[{"All", ",", "3"}], "]"}], "]"}], "=", 
-   RowBox[{"memoryinfo", "[", 
+   RowBox[{"memoryinfochart", "[", 
     RowBox[{"[", 
      RowBox[{"All", ",", "3", ",", 
       RowBox[{"2", ";;", 
@@ -72,48 +106,62 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{"top", "=", 
    RowBox[{
-    RowBox[{"Table", "[", 
+    RowBox[{"Select", "[", 
      RowBox[{
-      RowBox[{"Module", "[", 
+      RowBox[{"Table", "[", 
        RowBox[{
-        RowBox[{"{", "tempinfo", "}"}], ",", "\[IndentingNewLine]", 
-        RowBox[{
-         RowBox[{"tempinfo", "=", 
-          RowBox[{"Select", "[", 
-           RowBox[{"memoryinfo", ",", 
-            RowBox[{
-             RowBox[{"(", 
-              RowBox[{
-               RowBox[{"Length", "[", 
-                RowBox[{"#", "[", 
-                 RowBox[{"[", "3", "]"}], "]"}], "]"}], "\[GreaterEqual]", 
-               "depth"}], ")"}], "&"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"Module", "[", 
          RowBox[{
-          RowBox[{"tempinfo", "[", 
-           RowBox[{"[", 
-            RowBox[{"All", ",", "3"}], "]"}], "]"}], "=", 
-          RowBox[{"tempinfo", "[", 
-           RowBox[{"[", 
-            RowBox[{"All", ",", "3", ",", 
-             RowBox[{";;", "depth"}]}], "]"}], "]"}]}], ";", 
-         "\[IndentingNewLine]", 
-         RowBox[{
-          RowBox[{"Sort", "[", 
-           RowBox[{
-            RowBox[{"Tally", "[", "tempinfo", "]"}], ",", 
-            RowBox[{
-             RowBox[{"(", 
+          RowBox[{"{", "tempinfo", "}"}], ",", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"tempinfo", "=", 
+            RowBox[{"Select", "[", 
+             RowBox[{"memoryinfochart", ",", 
               RowBox[{
-               RowBox[{"#1", "[", 
-                RowBox[{"[", "2", "]"}], "]"}], ">", 
-               RowBox[{"#2", "[", 
-                RowBox[{"[", "2", "]"}], "]"}]}], ")"}], "&"}]}], "]"}], "[", 
-          
-          RowBox[{"[", 
-           RowBox[{";;", "maxscore"}], "]"}], "]"}]}]}], 
-       "\[IndentingNewLine]", "]"}], ",", 
-      RowBox[{"{", 
-       RowBox[{"depth", ",", "1", ",", "maxdepth"}], "}"}]}], "]"}], "//", 
+               RowBox[{"(", 
+                RowBox[{
+                 RowBox[{"Length", "[", 
+                  RowBox[{"#", "[", 
+                   RowBox[{"[", "3", "]"}], "]"}], "]"}], "\[GreaterEqual]", 
+                 "depth"}], ")"}], "&"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"If", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"Length", "[", "tempinfo", "]"}], ">", "0"}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"tempinfo", "[", 
+                RowBox[{"[", 
+                 RowBox[{"All", ",", "3"}], "]"}], "]"}], "=", 
+               RowBox[{"tempinfo", "[", 
+                RowBox[{"[", 
+                 RowBox[{"All", ",", "3", ",", 
+                  RowBox[{";;", "depth"}]}], "]"}], "]"}]}], ";", 
+              "\[IndentingNewLine]", 
+              RowBox[{
+               RowBox[{"Sort", "[", 
+                RowBox[{
+                 RowBox[{"Tally", "[", "tempinfo", "]"}], ",", 
+                 RowBox[{
+                  RowBox[{"(", 
+                   RowBox[{
+                    RowBox[{"#1", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}], ">", 
+                    RowBox[{"#2", "[", 
+                    RowBox[{"[", "2", "]"}], "]"}]}], ")"}], "&"}]}], "]"}], 
+               "[", 
+               RowBox[{"[", 
+                RowBox[{";;", "maxscore"}], "]"}], "]"}]}], 
+             "\[IndentingNewLine]", ",", "Null"}], "\[IndentingNewLine]", 
+            "]"}]}]}], "\[IndentingNewLine]", "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"depth", ",", "1", ",", "maxdepth"}], "}"}]}], "]"}], ",", 
+      RowBox[{
+       RowBox[{"!", 
+        RowBox[{"SameQ", "[", 
+         RowBox[{"#", ",", "Null"}], "]"}]}], "&"}]}], "]"}], "//", 
     "Transpose"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"chart", "=", 
   RowBox[{"BarChart", "[", 
@@ -139,7 +187,7 @@ Cell[BoxData[{
 \>\"", "<>", 
       RowBox[{"ToString", "[", 
        RowBox[{
-        RowBox[{"memoryinfo", "[", 
+        RowBox[{"memoryinfochart", "[", 
          RowBox[{"[", 
           RowBox[{"All", ",", "2"}], "]"}], "]"}], "//", "Total"}], "]"}], 
       "<>", "\"\< bytes\>\""}]}], ",", 
@@ -172,19 +220,13 @@ Cell[BoxData[{
     RowBox[{"LabelingFunction", "\[Rule]", 
      RowBox[{"(", 
       RowBox[{
-       RowBox[{"(", 
+       RowBox[{"topinfo", "[", 
         RowBox[{
-         RowBox[{"(", 
-          RowBox[{
-           RowBox[{"tohexstring", "[", "#", "]"}], "&"}], ")"}], "/@", 
-         RowBox[{"%", "[", 
-          RowBox[{"[", 
-           RowBox[{
-            RowBox[{"#2", "[", 
-             RowBox[{"[", "1", "]"}], "]"}], ",", 
-            RowBox[{"#2", "[", 
-             RowBox[{"[", "2", "]"}], "]"}], ",", "1", ",", "3"}], "]"}], 
-          "]"}]}], ")"}], "&"}], ")"}]}]}], "]"}]}]}], "Input",
+         RowBox[{"#2", "[", 
+          RowBox[{"[", "1", "]"}], "]"}], ",", 
+         RowBox[{"#2", "[", 
+          RowBox[{"[", "2", "]"}], "]"}]}], "]"}], "&"}], ")"}]}]}], 
+   "]"}]}]}], "Input",
  CellChangeTimes->{{3.533972448276278*^9, 3.5339724598404818`*^9}, {
    3.533972493100089*^9, 3.533972607100503*^9}, {3.533972745880595*^9, 
    3.5339727610960073`*^9}, 3.533972799965508*^9, {3.5339728905291967`*^9, 
@@ -249,9 +291,25 @@ Cell[BoxData[{
    3.534020876025628*^9}, {3.534020948342305*^9, 3.534020949161304*^9}, {
    3.534021249800208*^9, 3.534021287506266*^9}, {3.53402133113303*^9, 
    3.5340213538861523`*^9}, 3.534021759032694*^9, {3.534060411450947*^9, 
-   3.5340604142928658`*^9}, 3.534074980030737*^9}],
+   3.5340604142928658`*^9}, 3.534074980030737*^9, {3.5342683848921537`*^9, 
+   3.5342683959888887`*^9}, {3.534268431433955*^9, 3.534268500852363*^9}, {
+   3.5342685482844954`*^9, 3.53426856010564*^9}, {3.534268596946988*^9, 
+   3.5342686012257023`*^9}, {3.5342688554700747`*^9, 
+   3.5342688927966137`*^9}, {3.534268953996776*^9, 3.5342690426546087`*^9}, {
+   3.534269098915689*^9, 3.534269105499752*^9}, {3.534269198457868*^9, 
+   3.5342692061346273`*^9}}],
 
 Cell[BoxData[{
+ RowBox[{
+  RowBox[{"memoryinfotree", "=", 
+   RowBox[{"Select", "[", 
+    RowBox[{"memoryinforaw", ",", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"timestart", "\[LessEqual]", 
+        RowBox[{"#", "[", 
+         RowBox[{"[", "4", "]"}], "]"}], "<", "timeend"}], ")"}], "&"}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"edges", "=", 
    RowBox[{"Tally", "[", 
@@ -277,11 +335,11 @@ Cell[BoxData[{
                RowBox[{"[", "3", "]"}], "]"}], "]"}], ",", "maxdepth"}], 
             "]"}], ",", "2", ",", 
            RowBox[{"-", "1"}]}], "}"}]}], "]"}], "&"}], "/@", 
-      "memoryinforaw"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+      "memoryinfotree"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{"tree", "=", 
   RowBox[{"TreePlot", "[", 
    RowBox[{"edges", ",", "Center", ",", 
-    RowBox[{"memoryinforaw", "[", 
+    RowBox[{"memoryinfotree", "[", 
      RowBox[{"[", 
       RowBox[{"1", ",", "3", ",", "1"}], "]"}], "]"}], ",", 
     RowBox[{"ImageSize", "\[Rule]", "3000"}], ",", 
@@ -317,8 +375,9 @@ Cell[BoxData[{
             "<>", 
             RowBox[{"tohexstring", "[", 
              RowBox[{"#2", "[", 
-              RowBox[{"[", "2", "]"}], "]"}], "]"}]}]}], "]"}]}], "}"}], 
-       "&"}], ")"}]}], ",", 
+              RowBox[{"[", "2", "]"}], "]"}], "]"}], "<>", "\"\<, \>\"", "<>", 
+            RowBox[{"ToString", "[", "#3", "]"}]}]}], "]"}]}], "}"}], "&"}], 
+      ")"}]}], ",", 
     RowBox[{"LayerSizeFunction", "\[Rule]", 
      RowBox[{"(", 
       RowBox[{"5", "&"}], ")"}]}], ",", 
@@ -330,7 +389,7 @@ Cell[BoxData[{
          RowBox[{"Which", "[", 
           RowBox[{
            RowBox[{"#2", "\[Equal]", 
-            RowBox[{"memoryinforaw", "[", 
+            RowBox[{"memoryinfotree", "[", 
              RowBox[{"[", 
               RowBox[{"1", ",", "3", ",", "1"}], "]"}], "]"}]}], ",", "Red", 
            ",", 
@@ -415,7 +474,8 @@ Blue is library code, green is the main executable.\>\""}]}],
    3.534021249800208*^9, 3.534021287506266*^9}, {3.53402133113303*^9, 
    3.5340213538861523`*^9}, 3.534021759032694*^9, 3.534060411450947*^9, {
    3.5340606657693253`*^9, 3.534060666341483*^9}, {3.534074970585815*^9, 
-   3.534074971630294*^9}}]
+   3.534074971630294*^9}, {3.534264621218069*^9, 3.534264632121932*^9}, {
+   3.53426922759746*^9, 3.534269252016366*^9}}]
 },
 WindowSize->{1366, 744},
 WindowMargins->{{0, Automatic}, {Automatic, 0}},
@@ -433,11 +493,11 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[557, 20, 194, 5, 30, "Input"],
-Cell[754, 27, 522, 13, 30, "Input"],
-Cell[1279, 42, 808, 13, 50, "Input"],
-Cell[2090, 57, 9335, 194, 221, "Input"],
-Cell[11428, 253, 8406, 164, 164, "Input"]
+Cell[557, 20, 310, 6, 30, "Input"],
+Cell[870, 28, 1264, 32, 88, "Input"],
+Cell[2137, 62, 1161, 20, 88, "Input"],
+Cell[3301, 84, 10407, 215, 278, "Input"],
+Cell[13711, 301, 8912, 176, 183, "Input"]
 }
 ]
 *)
