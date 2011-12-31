@@ -10,21 +10,21 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       157,          7]
-NotebookDataLength[     23021,        496]
-NotebookOptionsPosition[     22627,        479]
-NotebookOutlinePosition[     22963,        494]
-CellTagsIndexPosition[     22920,        491]
+NotebookDataLength[     23410,        501]
+NotebookOptionsPosition[     23016,        484]
+NotebookOutlinePosition[     23352,        499]
+CellTagsIndexPosition[     23309,        496]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
 Notebook[{
 Cell[BoxData[
  RowBox[{
-  RowBox[{"Get", "[", "\"\<sorgenti/hopmodv4/memoryinfo_9661_0\>\"", "]"}], 
+  RowBox[{"Get", "[", "\"\<sorgenti/hopmodv4/memoryinfo_7303_0\>\"", "]"}], 
   ";"}]], "Input",
  CellChangeTimes->{{3.53407481513846*^9, 3.534074832007988*^9}, {
    3.534264388616157*^9, 3.5342643901309032`*^9}, {3.534267390940728*^9, 
-   3.534267402107065*^9}, 3.5342680359329643`*^9}],
+   3.534267402107065*^9}, 3.5342680359329643`*^9, 3.534323615298851*^9}],
 
 Cell[BoxData[{
  RowBox[{
@@ -38,7 +38,8 @@ Cell[BoxData[{
         RowBox[{"x", ",", "16"}], "]"}], "]"}], ",", 
       RowBox[{
        RowBox[{"RegularExpression", "[", "\"\<\\n *16\>\"", "]"}], "\[Rule]", 
-       "\"\<\>\""}]}], "]"}], "]"}]}]}], "\[IndentingNewLine]", 
+       "\"\<\>\""}]}], "]"}], "]"}], "<>", 
+   "\"\< \>\""}]}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{"SetAttributes", "[", 
    RowBox[{"tohexstring", ",", "Listable"}], "]"}], 
@@ -49,7 +50,7 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{"topinfo", "[", 
    RowBox[{"score_Integer", ",", "depth_Integer"}], "]"}], ":=", 
-  RowBox[{"ToString", "[", 
+  RowBox[{"StringJoin", "[", 
    RowBox[{"tohexstring", "[", 
     RowBox[{"top", "[", 
      RowBox[{"[", 
@@ -58,7 +59,10 @@ Cell[BoxData[{
  CellChangeTimes->{{3.534019420329543*^9, 3.534019462484221*^9}, {
   3.5342680619732533`*^9, 3.534268115738275*^9}, {3.5342681630072603`*^9, 
   3.534268170512013*^9}, {3.534268262318969*^9, 3.534268288387154*^9}, {
-  3.534268319815942*^9, 3.534268361132821*^9}}],
+  3.534268319815942*^9, 3.534268361132821*^9}, {3.534323969877084*^9, 
+  3.534323983300659*^9}, {3.534324025145749*^9, 3.5343240274169683`*^9}, {
+  3.5343240808952303`*^9, 3.5343240815022078`*^9}, {3.534325457728423*^9, 
+  3.534325459288957*^9}, {3.5343257435975113`*^9, 3.534325745997451*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -80,7 +84,8 @@ Cell[BoxData[{
    3.534060419550205*^9, 3.5340604198831863`*^9}, 3.534060538691372*^9, {
    3.534264394991984*^9, 3.53426439812114*^9}, {3.534268569099457*^9, 
    3.534268593217126*^9}, {3.534268648628481*^9, 3.534268660403153*^9}, {
-   3.5342692726681757`*^9, 3.5342692728063*^9}}],
+   3.5342692726681757`*^9, 3.5342692728063*^9}, {3.53432580387044*^9, 
+   3.534325848509444*^9}, {3.534325926803672*^9, 3.534325928831977*^9}}],
 
 Cell[BoxData[{
  RowBox[{
@@ -493,11 +498,11 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[557, 20, 310, 6, 30, "Input"],
-Cell[870, 28, 1264, 32, 88, "Input"],
-Cell[2137, 62, 1161, 20, 88, "Input"],
-Cell[3301, 84, 10407, 215, 278, "Input"],
-Cell[13711, 301, 8912, 176, 183, "Input"]
+Cell[557, 20, 332, 6, 30, "Input"],
+Cell[892, 28, 1536, 36, 88, "Input"],
+Cell[2431, 66, 1256, 21, 88, "Input"],
+Cell[3690, 89, 10407, 215, 278, "Input"],
+Cell[14100, 306, 8912, 176, 183, "Input"]
 }
 ]
 *)
