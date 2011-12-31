@@ -84,7 +84,7 @@ extern "C" void* realloc(void* ptr, size_t size){
 	boostmap::iterator it=memoryinfo->find(ptr);
 	if(it!=memoryinfo->end()){
 		((*memoryinfo)[result]=it->second).reallocated=true;
-		memoryinfo->erase(it);
+		memoryinfo->erase(ptr);
 	}
 	pthread_mutex_unlock(&mutex);
 
