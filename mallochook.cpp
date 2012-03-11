@@ -31,8 +31,9 @@ static uint64_t gettimemillis(){
 }
 
 static __thread bool inhook=false;
+static volatile bool inited=false;
 static uint64_t start;
-static boostmap* volatile memoryinfo;
+static boostmap memoryinfo;
 static pthread_mutex_t mutex;
 static pthread_cond_t doyourjob;
 
@@ -44,30 +45,28 @@ static void* dumpmemoryinfo(void*);
 
 static int init() __attribute__((constructor));
 static int init(){
-	inhook=true;
 	start=gettimemillis();
-	memoryinfo=new boostmap();
 	pthread_mutex_init(&mutex, 0);
 	pthread_cond_init(&doyourjob, 0);
 	pthread_t id;
 	pthread_create(&id, 0, dumpmemoryinfo, 0);
 	signal(SIGUSR1, wakedumper);
 	cout<<"libmallokhook loaded"<<endl;
-	inhook=false;
+	inited=true;
 	return 0;
 }
 
 extern "C" void* __libc_malloc(size_t);
 extern "C" void* malloc(size_t size){
 	void* result=__libc_malloc(size);
-	if(inhook) return result;
+	if(!inited || inhook) return result;
 	inhook=true;
 
 	memoryblock info(size);
 	info.alloc_time=gettimemillis();
 	info.stackdepth=backtrace(info.stack, DEPTH);
 	pthread_mutex_lock(&mutex);
-	(*memoryinfo)[result]=info;
+	memoryinfo[result]=info;
 	pthread_mutex_unlock(&mutex);
 
 	inhook=false;
@@ -77,14 +76,14 @@ extern "C" void* malloc(size_t size){
 extern "C" void* __libc_realloc(void*, size_t);
 extern "C" void* realloc(void* ptr, size_t size){
 	void* result=__libc_realloc(ptr, size);
-	if(inhook) return result;
+	if(!inited || inhook) return result;
 	inhook=true;
 
 	pthread_mutex_lock(&mutex);
-	boostmap::iterator it=memoryinfo->find(ptr);
-	if(it!=memoryinfo->end()){
-		((*memoryinfo)[result]=it->second).reallocated=true;
-		memoryinfo->erase(ptr);
+	boostmap::iterator it=memoryinfo.find(ptr);
+	if(it!=memoryinfo.end()){
+		(memoryinfo[result]=it->second).reallocated=true;
+		memoryinfo.erase(ptr);
 	}
 	pthread_mutex_unlock(&mutex);
 
@@ -95,12 +94,12 @@ extern "C" void* realloc(void* ptr, size_t size){
 extern "C" void __libc_free(void*);
 extern "C" void free(void* ptr){
 	__libc_free(ptr);
-	if(inhook) return;
+	if(!inited || inhook) return;
 	inhook=true;
 
 	pthread_mutex_lock(&mutex);
-	boostmap::iterator it=memoryinfo->find(ptr);
-	if(it!=memoryinfo->end()) memoryinfo->erase(it);
+	boostmap::iterator it=memoryinfo.find(ptr);
+	if(it!=memoryinfo.end()) memoryinfo.erase(it);
 	pthread_mutex_unlock(&mutex);
 
 	inhook=false;
@@ -123,8 +122,8 @@ static void* dumpmemoryinfo(void*){
 		filename<<"memoryinfo_"<<nowclock-start<<'_'<<uniquifier++;
 		ofstream out(filename.str().c_str());
 		out<<"memoryinforaw={"<<endl;
-		for(boostmap::iterator it=memoryinfo->begin(); it!=memoryinfo->end(); it++){
-			if(it!=memoryinfo->begin()) out<<","<<endl;
+		for(boostmap::iterator it=memoryinfo.begin(); it!=memoryinfo.end(); it++){
+			if(it!=memoryinfo.begin()) out<<","<<endl;
 			memoryblock& bl=it->second;
 			out<<"{"<<(bl.reallocated?"True":"False")<<", "<<bl.bytes<<", {";
 			for(size_t i=0; i<bl.stackdepth; i++) out<<(i?", ":"")<<(unsigned long int)(bl.stack[i]);
