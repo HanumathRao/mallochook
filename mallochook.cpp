@@ -34,27 +34,33 @@ static __thread bool inhook=false;
 static volatile bool inited=false;
 static uint64_t start;
 static boostmap memoryinfo;
+static pthread_t id;
 static pthread_mutex_t mutex;
-static pthread_cond_t doyourjob;
+static pthread_cond_t wake;
 
 static void wakedumper(int){
-	pthread_cond_signal(&doyourjob);
+	pthread_cond_signal(&wake);
 }
 
 static void* dumpmemoryinfo(void*);
 
-static int init() __attribute__((constructor));
-static int init(){
-	start=gettimemillis();
-	pthread_mutex_init(&mutex, 0);
-	pthread_cond_init(&doyourjob, 0);
-	pthread_t id;
-	pthread_create(&id, 0, dumpmemoryinfo, 0);
-	signal(SIGUSR1, wakedumper);
-	cout<<"libmallokhook loaded"<<endl;
-	inited=true;
-	return 0;
-}
+static struct hooker{
+	hooker(){
+		start=gettimemillis();
+		pthread_mutex_init(&mutex, 0);
+		pthread_cond_init(&wake, 0);
+		pthread_create(&id, 0, dumpmemoryinfo, 0);
+		signal(SIGUSR1, wakedumper);
+		inited=true;
+	}
+	~hooker(){
+		inited=false;
+		pthread_cond_signal(&wake);
+		pthread_join(id, 0);
+		id=0;
+		cout<<"libmallokhook unloaded"<<endl;
+	}
+} hook;
 
 extern "C" void* __libc_malloc(size_t);
 extern "C" void* malloc(size_t size){
@@ -108,7 +114,8 @@ extern "C" void free(void* ptr){
 static void* dumpmemoryinfo(void*){
 	while(true){
 		pthread_mutex_lock(&mutex);
-		pthread_cond_wait(&doyourjob, &mutex);
+		pthread_cond_wait(&wake, &mutex);
+		if(!inited) return 0;
 		inhook=true;
 
 		stringstream filename;
